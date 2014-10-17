@@ -20,16 +20,16 @@ var app = angular
     'ngTouch',
     'firebase'
   ])
-  .constant('FIREBASE_URL', 'https://corytutorial.firebaseio.com/')
+  .constant('FIREBASE_URL', 'https://pdrnk.firebaseio.com/')
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/posts.html',
-        controller: 'PostsCtrl'
+        templateUrl: 'views/podcasts.html',
+        controller: 'PodcastsCtrl'
       })
-      .when('/posts/:postId', {
-        templateUrl: 'views/showpost.html',
-        controller: 'PostViewCtrl'
+      .when('/podcasts/:podcastId', {
+        templateUrl: 'views/showpodcast.html',
+        controller: 'PodcastViewCtrl'
       })
       .when('/register', {
         templateUrl: 'views/register.html',

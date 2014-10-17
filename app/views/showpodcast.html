@@ -22,20 +22,12 @@
     <div class="col-md-2">
     </div>
   </div>
-
-  <div ng-repeat="comment in comments" class="row cmt">
+  <div>{{predicate}}</div>
+  <div ng-repeat="episode in episodes | orderBy:predicate" class="row cmt">
     <div class="col-md-12">
-      <p>{{ comment.text }}</p>
-      <p class="author">posted by
-        <a ng-href="#/users/{{ comment.creatorID }}">
-          {{ comment.creator }}
-        </a>
-        <a ng-href=""
-          ng-click="deleteComment(comment)"
-          ng-show="signedIn() && comment.creatorID === user.id">
-          (delete)
-        </a>
-      </p>
+      <p>{{ episode.pubdate }}</p>
+      <p>{{ episode.name }}</p>
+      <p>{{ episode.duration }}</p>
     </div>
   </div>
   
