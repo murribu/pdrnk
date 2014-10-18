@@ -1,0 +1,13 @@
+<div class="container posts-page">
+  <div class="post row" ng-repeat="podcast in podcasts">
+    <div class="col-xs-1">
+    </div>
+    <div class="col-md-9 col-xs-11">
+      <div class="info">
+        <a ng-href="#/podcasts/{{podcast.$id}}">
+          {{ podcast.name  }}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

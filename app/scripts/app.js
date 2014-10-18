@@ -1,31 +1,57 @@
+/* global app:true */
+/* exported app */
 'use strict';
 
 /**
  * @ngdoc overview
- * @name pdrnkApp
+ * @name angNewsApp
  * @description
- * # pdrnkApp
+ * # angNewsApp
  *
  * Main module of the application.
  */
-angular
-  .module('pdrnkApp', [
+var app = angular
+  .module('angNewsApp', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'firebase'
   ])
+  .constant('FIREBASE_URL', 'https://pdrnk.firebaseio.com/')
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        templateUrl: 'views/podcasts.html',
+        controller: 'PodcastsCtrl'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
+      .when('/podcasts/:podcastId', {
+        templateUrl: 'views/showpodcast.html',
+        controller: 'PodcastViewCtrl'
+      })
+      .when('/register', {
+        templateUrl: 'views/register.html',
+        controller: 'AuthCtrl',
+        resolve: {
+          user: function(Auth) {
+            return Auth.resolveUser();
+          }
+        }
+      })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'AuthCtrl',
+        resolve: {
+          user: function(Auth) {
+            return Auth.resolveUser();
+          }
+        }
+      })
+      .when('/users/:userId', {
+        templateUrl: 'views/profile.html',
+        controller: 'ProfileCtrl'
       })
       .otherwise({
         redirectTo: '/'

@@ -1,0 +1,48 @@
+<div class="container posts-page">
+
+  <div class="post row">
+    <div class="col-xs-1">
+    </div>
+    <div class="col-md-9 col-xs-11">
+      <div class="info">
+        <a ng-href="{{ post.url }}">
+          {{ post.title }}
+          <span class="url">({{ post.url | hostnameFromUrl }})</span>
+        </a>
+      </div>
+      <div>
+        <span>
+          submitted by
+          <a ng-href="#/users/{{ post.creatorID }}">
+            {{ post.creator }}
+          </a>
+        </span>
+      </div>
+    </div>
+    <div class="col-md-2">
+    </div>
+  </div>
+  <div>{{predicate}}</div>
+  <div ng-repeat="episode in episodes | orderBy:predicate" class="row cmt">
+    <div class="col-md-12">
+      <p>{{ episode.pubdate }}</p>
+      <p>{{ episode.name }}</p>
+      <p>{{ episode.duration }}</p>
+    </div>
+  </div>
+  
+  <div class="cmt-form">
+    <div ng-hide="signedIn()">
+      <p><a href="#/login">Sign in</a> to post a comment</p>
+    </div>
+
+    <form ng-show="signedIn()" ng-submit="addComment()">
+      <textarea
+        ng-model="commentText"
+        placeholder="Post a Comment"
+        class="form-control"></textarea><br />
+      <input type="submit" value="Post Comment" class="btn btn-primary" />
+    </form>
+  </div>
+
+</div>
