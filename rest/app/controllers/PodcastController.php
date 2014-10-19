@@ -1,33 +1,50 @@
 <?
-  class PodcastController extends BaseController {
+class PodcastController extends BaseController {
 
-    public function showPodcast($id){
-        $podcast = Podcast::find($id);
+  private $fields = array(
+      'po_name' =>
+        array(
+          'type' => 'string',
+          'required' => true
+        ),
+      'po_feed' =>
+        array(
+          'type' => 'string',
+          'required' => true
+        ),
+      'po_feeddev' =>
+        array(
+          'type' => 'string',
+          'required' => false
+        ),
+      'po_url' =>
+        array(
+          'type' => 'string',
+          'required' => false
+        )
+    );
+  private $table = "podcasts";
+  private $pk = 'po_key';
 
-        return Response::json($podcast);
-    }
+  public function showPodcast($id){
+      $podcast = Podcast::find($id);
 
-    public function showPodcasts(){
-      $podcasts = Podcast::all();
+      return Response::json($podcast);
+  }
 
-      return Response::json($podcasts);
-    }
+  public function showPodcasts(){
+    $podcasts = Podcast::all();
 
-    public function addPodcast(){
-      $po_name = Input::get('po_name');
-      $po_feed = Input::get('po_feed');
-      $po_feeddev = Input::get('po_feeddev');
-      $po_url = Input::get('po_url');
-      $data = array(
-        $po_name,
-        $po_feed,
-        $po_feeddev,
-        $po_url
-      );
-      $num_rows = DB::insert('insert into podcasts (po_name, po_feed, po_feeddev, po_url) values (?,?,?,?)', $data);
-      return Response::json(array('Result' => intval($num_rows)));
-    }
+    return Response::json($podcasts);
+  }
 
+  public function addPodcast(){
+    return $this->executeInsertStatement(array('pk' => $this-pk, 'fields' => $this->fields, 'table' => $this->table));
+  }
+
+  public function updatePodcast(){
+    return $this->executeUpdateStatement(array('pk' => $this->pk, 'fields' => $this->fields, 'table' => $this->table));
+  }
 }
 
 ?>

@@ -13,13 +13,14 @@
 
 Route::get('/', function()
 {
-	return 'helloasdf world';
+	return 'helloaasdfsdf world';
 });
-Route::get('/podcast/{id}', function($id){
-  //if ($id == ""){
-    $podcasts = Podcast::all();
-  //}
-  return Response::json(array($id,$podcasts));
-});
+Route::get('/podcasts/{id}','PodcastController@showPodcast');
 Route::get('/podcasts','PodcastController@showPodcasts');
 Route::put('/podcast','PodcastController@addPodcast');
+Route::post('/podcast','PodcastController@updatePodcast');
+
+Route::get('/episode/{id}','EpisodeController@showEpisode');
+Route::get('/episodes/','EpisodeController@showEpisodes');
+Route::put('/episode','EpisodeController@addEpisode');
+Route::post('/episode','EpisodeController@updateEpisode');
