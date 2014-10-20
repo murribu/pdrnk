@@ -39,7 +39,7 @@ class PodcastController extends BaseController {
   }
 
   public function addPodcast(){
-    return $this->executeInsertStatement(array('pk' => $this-pk, 'fields' => $this->fields, 'table' => $this->table));
+    return $this->executeInsertStatement(array('pk' => $this->pk, 'fields' => $this->fields, 'table' => $this->table));
   }
 
   public function updatePodcast(){

@@ -2,7 +2,9 @@
 
 app.controller('PodcastsCtrl', function($scope, $location, Podcast, Auth){
   
-  $scope.podcasts = Podcast.all;
+  Podcast.all.success(function(d){
+    $scope.podcasts = d;
+  });
   $scope.user = Auth.user;
   
 });

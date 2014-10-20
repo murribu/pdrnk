@@ -10,13 +10,13 @@ $data = array(
   'po_feeddev' => 'http://murribu.com/nerdistrss.xml',
   'po_url' => 'http://nerdist.com'
 );
-$ret = $pdrnk->insertPodcast($data);
+$args = array(
+  'data' => $data,
+  'object' => 'podcast'
+);
+$ret = $pdrnk->insertObject($args);
 echo $ret;
 */
-
-//Read a podcast's feed example
-
-
 //Update a podcast example...
 /*$pdrnk = new Pdrnk();
 
@@ -24,12 +24,56 @@ $data = array(
   'po_key' => 1,
   'po_name' => 'Nerdist isn\'t awesome'
 );
-
-$ret = $pdrnk->updatePodcast($data);
+$args = array(
+  'data' => $data,
+  'object' => 'podcast'
+);
+$ret = $pdrnk->updatePodcast($args);
 echo $ret;
 */
 
 //Insert an episode example
+/*
+$pdrnk = new Pdrnk();
+$episode = array(
+    'ep_name' => 'Test episode',
+    'ep_description' => 'This episode was about testing. It was quite boring.',
+    'ep_duration' => '1:09:14',
+    'ep_explicit' => 'yes',
+    'ep_filesize' => '123456789',
+    'ep_link' => 'http://murribu.com/episode/1',
+    'ep_pubdate' => 'Wed, 02 May 2012 07:00:00 +0000',
+    'ep_url' => 'http://www.podtrac.com/pts/redirect.mp3/traffic.libsyn.com/nerdist/Nerdist_201_-_Seth_Green.mp3',
+    'ep_po_key' => 1
+  );
+$args = array(
+  'data' => $episode,
+  'object' => 'episode'
+);
+$ret = $pdrnk->insertObject($args);
+echo $ret;
+*/
+
+//Read a podcast's feed example
+/**/
+$pdrnk = new Pdrnk();
+echo $pdrnk->readPodcastFeed(1);
+exit;
+
+$str = "a1:a00:a04";
+$arr = explode(":",$str);
+print_r($arr);
+rsort($arr);
+print_r($arr);
+$val = 0;
+$i = 0;
+foreach($arr as $t){
+  $t = substr($t,1);
+  $val += $t*pow(60,$i++);
+  echo $t."\n";
+}
+
+echo $val;
 
 exit;
 

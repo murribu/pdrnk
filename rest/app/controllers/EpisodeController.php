@@ -1,11 +1,18 @@
 <?
 class EpisodeController extends BaseController {
 
+  private $leftjoin = array(
+    'podcasts' => 'po_key = ep_po_key'
+  );
+  
   private $fields = array(
       'ep_name' =>
         array(
           'type' => 'string',
-          'required' => true
+          'required' => true,
+          'can_search' => array(
+            'equals' => true
+          )
         ),
       'ep_description' =>
         array(
@@ -20,7 +27,10 @@ class EpisodeController extends BaseController {
       'ep_explicit' =>
         array(
           'type' => 'bool',
-          'required' => true
+          'required' => true,
+          'can_search' => array(
+            'equals' => true
+          )
         ),
       'ep_filesize' =>
         array(
@@ -40,7 +50,12 @@ class EpisodeController extends BaseController {
       'ep_pubdate' =>
         array(
           'type' => 'datetime',
-          'required' => true
+          'required' => true,
+          'can_search' => array(
+            'equals' => true,
+            'gt' => true,
+            'lt' => true
+          )
         ),
       'ep_url' =>
         array(
@@ -50,13 +65,31 @@ class EpisodeController extends BaseController {
       'ep_po_key' =>
         array(
           'type' => 'int',
-          'fk' => 'podcasts.po_key'
-          'required' => true
+          'fk' => 'podcasts.po_key',
+          'required' => true,
+          'can_search' => array(
+            'equals' => true
+          )
+        ),
+      'ep_guid' =>
+        array(
+          'type' => 'string',
+          'required' => true,
+          'can_search' => array(
+            'equals' => true
+          )
+        ),
+      'po_name' =>
+        array(
+          'type' => 'string',
+          'foreign' => true
         )
     );
   private $table = "episodes";
   private $pk = 'ep_key';
 
+  private $limit = 10;
+  
   public function showEpisode($id){
       $episode = Episode::find($id);
 
@@ -64,13 +97,15 @@ class EpisodeController extends BaseController {
   }
 
   public function showEpisodes(){
-    $episodes = Episode::all();
-
-    return Response::json($episodes);
+    //$episodes = Episode::all();
+    
+    //return Response::json($episodes);
+    
+    return $this->executeSearch(array('fields' => $this->fields, 'table' => $this->table, 'limit' => $this->limit, 'leftjoin' => $this->leftjoin));
   }
 
   public function addEpisode(){
-    return $this->executeInsertStatement(array('pk' => $this-pk, 'fields' => $this->fields, 'table' => $this->table));
+    return $this->executeInsertStatement(array('pk' => $this->pk, 'fields' => $this->fields, 'table' => $this->table));
   }
 
   public function updateEpisode(){

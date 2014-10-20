@@ -1,16 +1,13 @@
 'use strict';
 
-app.factory('Episode', function ($firebase, FIREBASE_URL) {
-  var ref = new Firebase(FIREBASE_URL);
-  
-  //refactor mysql rest
+app.factory('Episode', function (REST_URL, $http) {
   
   var Episode = {
-    get: function(podcastId, episodeId){
-      return $firebase(ref.child('episodes/'+podcastId+'/'+episodeId)).$asObject();
+    get: function(episodeId){
+      return $http.get(REST_URL + 'episodes/'+episodeId)
     },
     getByPodcastId: function(podcastId){
-      return $firebase(ref.child('episodes/'+podcastId)).$asObject();
+      return $http.get(REST_URL + 'episodes?po_key='+podcastId);
     }
   };
   

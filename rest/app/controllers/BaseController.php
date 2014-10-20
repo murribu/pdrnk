@@ -13,6 +13,44 @@ class BaseController extends Controller {
 			$this->layout = View::make($this->layout);
 		}
 	}
+  
+  function executeSearch($args){
+    extract($args);
+    $where = " where 1=1 ";
+    $select = "";
+    $data = array();
+    foreach($fields as $field=>$v){
+      if (Input::has($field)){
+        if (isset($v['can_search'])){
+          if ($v['can_search']['equals']){
+            $where .= " and $field = ? ";
+            $data[] = Input::get($field);
+          }
+        }
+      }
+      if (!(isset($v['hide']) && $v['hide'])){
+        switch ($v['type']){
+          case 'datetime':
+            $select .= ",concat(UNIX_TIMESTAMP($field),'000') $field";
+            break;
+          default:
+            $select .= ",$field";
+            break;
+        }
+      }
+    }
+    $select = "select ".substr($select,1);
+    $from = " from $table ";
+    foreach($leftjoin as $foreign=>$clause){
+      $from .= " left join $foreign on $clause ";
+    }
+    if ($limit != ""){
+      $limit = " limit $limit";
+    }
+
+    return DB::select("$select $from $where $limit",$data);
+    
+  }
 
   function executeUpdateStatement($args){
     extract($args);
@@ -50,8 +88,8 @@ class BaseController extends Controller {
         }
       }
     }
-    if ($set != "" && Input::has($pk)){
-      $data[] = Input::get($pk);
+    if ($set != "" && (Input::has($pk) || Input::has('pk'))){
+      $data[] = Input::has($pk) ? Input::get($pk) : Input::get('pk');
       $num_rows = DB::update("update $table set ".substr($set, 1)." where $pk = ?",$data);
       return Response::json(array('Result' => intval($num_rows)));
     }else{
@@ -68,10 +106,11 @@ class BaseController extends Controller {
       if (Input::has($field)){
         switch ($v['type']){
           case 'timetoint':
-            $arr = rsort(explode(":",Input::get($field)));
+            $arr = array_reverse(explode(":",Input::get($field)));
             $val = 0;
             $i = 0;
             foreach($arr as $t){
+              $t = substr($t,1);
               $val += $t*pow(60,$i++);
             }
             $data[] = $val;
@@ -96,7 +135,7 @@ class BaseController extends Controller {
         $vals .= ",?";
         $fieldlist .= ",$field";
       }else{
-        if ($v['required']){
+        if (isset($v['required']) && $v['required']){
           switch ($v['type']){
             case 'bool':
               $vals .= ",?";
@@ -107,8 +146,9 @@ class BaseController extends Controller {
               $vals .= ",?";
               $fieldlist .= ",$field";
               $data[] = gmdate("Y-m-d G:i:s"); //default all datetimes to now??????
+              break;
             default:
-              return Response::json(array('Error' => "$field is required"));
+              return Response::json(array('Error' => "$field (".$v['type'].") is required"));
               break;
           }
         }

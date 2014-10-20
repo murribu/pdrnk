@@ -1,8 +1,11 @@
 'use strict';
 
 app.controller('PodcastViewCtrl', function($scope, $routeParams, Podcast, Episode){
-  $scope.podcast = Podcast.get($routeParams.podcastId);
-  $scope.episodes = Episode.getByPodcastId($routeParams.podcastId);
-  $scope.predicate = 'episode.rand';
-  console.log($scope.episodes);
+  Podcast.get($routeParams.podcastId).success(function(d){
+    $scope.podcast = d;
+  });
+  Episode.getByPodcastId($routeParams.podcastId).success(function(d){
+    $scope.episodes = d;
+    console.log($scope.episodes);
+  });
 });

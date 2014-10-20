@@ -1,5 +1,6 @@
 <?php
-
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE');
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -13,7 +14,7 @@
 
 Route::get('/', function()
 {
-	return 'helloaasdfsdf world';
+	return 'hello world';
 });
 Route::get('/podcasts/{id}','PodcastController@showPodcast');
 Route::get('/podcasts','PodcastController@showPodcasts');
@@ -24,3 +25,13 @@ Route::get('/episode/{id}','EpisodeController@showEpisode');
 Route::get('/episodes/','EpisodeController@showEpisodes');
 Route::put('/episode','EpisodeController@addEpisode');
 Route::post('/episode','EpisodeController@updateEpisode');
+
+Route::post('/auth/login', 'AuthController@login');
+Route::get('/auth/logout', 'AuthController@logout');
+Route::get('/auth/status', 'AuthController@status');
+
+Route::post('/auth/register', 'AuthController@register');
+
+Route::get('/auth/test',function(){
+  return Response::json(array(Auth::check());
+});

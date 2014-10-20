@@ -1,49 +1,34 @@
 'use strict';
 
-app.factory('Auth', function ($firebaseSimpleLogin, $firebase, FIREBASE_URL, $rootScope) {
-  var ref = new Firebase(FIREBASE_URL);
-  var auth = $firebaseSimpleLogin(ref);
+app.factory('Auth', function (REST_URL, $rootScope) {
   
   //refactor mysql rest
 
   var Auth = {
     register: function (user) {
-      return auth.$createUser(user.email, user.password);
+      return false;
     },
     createProfile: function (user) {
       var profile = {
         username: user.username
       };
       
-      var profileRef = $firebase(ref.child('profile'));
-      return profileRef.$set(user.id, profile);
+      return false;
     },
     login: function (user) {
-      return auth.$login('password', user);
+      return false;
     },
     logout: function () {
-      auth.$logout();
+      return false;
     },
     resolveUser: function() {
-      return auth.$getCurrentUser();
+      return false;
     },
     signedIn: function() {
-      return !!Auth.user.provider;
+      return false;
     },
     user: {}
   };
-
-  $rootScope.$on('$firebaseSimpleLogin:login', function(e, user) {
-    angular.copy(user, Auth.user);
-    Auth.user.profile = $firebase(ref.child('profile').child(Auth.user.id)).$asObject();
-  });
-  $rootScope.$on('$firebaseSimpleLogin:logout', function() {
-    console.log('logged out');
-    if(Auth.user && Auth.user.profile) {
-      Auth.user.profile.$destroy();
-    }
-    angular.copy({}, Auth.user);
-  });
 
   return Auth;
 });

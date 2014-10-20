@@ -17,10 +17,9 @@ var app = angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch',
-    'firebase'
+    'ngTouch'
   ])
-  .constant('FIREBASE_URL', 'https://pdrnk.firebaseio.com/')
+  .constant('REST_URL', 'http://rest.pdrnk.murribu.com/')
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

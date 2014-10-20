@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <title>Debugging</title>
+  </head>
+  <body>
+    <button onclick="testpost();">POST</button>
+    <button onclick="testput();">PUT</button>
+    <button onclick="testget();">GET</button>
+    
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script language="javascript">
+      $(function(){
+        
+      });
+      function testget(){
+        var data = new Object();
+        var args = new Object();
+        args['data'] = data;
+        args['object'] = 'podcast';
+        $.get('http://rest.pdrnk.murribu.com/auth/status',function(d){
+          //alert('here');
+        })
+      }
+      function testpost(){
+        var data = new Object();
+        data['email'] = 'murribu';
+        data['password'] = 'asdf';
+        var args = new Object();
+        args['data'] = data;
+        args['object'] = 'podcast';
+        $.post('http://rest.pdrnk.murribu.com/auth/login',data,function(d){
+          //alert('here');
+        })
+      }
+      function testput(){
+        var data = new Object();
+        data['ep_name'] = 'testing';
+        data['ep_po_key'] = 1;
+        data['ep_guid'] = 'asdf';
+        data['ep_duration'] = "1:09:34";
+        var args = new Object();
+        args['data'] = data;
+        args['object'] = 'episode';
+        $.ajax({
+          url: 'http://rest.pdrnk.murribu.com/episode',
+          type: 'PUT',
+          data: data
+        }).done(function(d){
+            //alert('here');
+        });
+      }
+    </script>
+  </body>
+</html>
