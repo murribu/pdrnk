@@ -12,6 +12,17 @@ header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE');
 |
 */
 
+$server = new \League\OAuth2\Server\AuthorizationServer;
+
+$server->setSessionStorage(new Storage\SessionStorage);
+$server->setAccessTokenStorage(new Storage\AccessTokenStorage);
+$server->setClientStorage(new Storage\ClientStorage);
+$server->setScopeStorage(new Storage\ScopeStorage);
+$server->setAuthCodeStorage(new Storage\AuthCodeStorage);
+
+$authCodeGrant = new \League\OAuth2\Server\Grant\AuthCodeGrant();
+$server->addGrantType($authCodeGrant);
+
 Route::get('/', function()
 {
 	return 'hello world';
@@ -26,7 +37,15 @@ Route::get('/episodes/','EpisodeController@showEpisodes');
 Route::put('/episode','EpisodeController@addEpisode');
 Route::post('/episode','EpisodeController@updateEpisode');
 
+Route::get('/signin/',function(){
+  if (Auth::check()){
+    return View::make('loggedin');
+  }else{
+    return View::make('signin');
+  }
+});
 Route::post('/auth/login', 'AuthController@login');
+/*
 Route::get('/auth/logout', 'AuthController@logout');
 Route::get('/auth/status', 'AuthController@status');
 
@@ -35,3 +54,4 @@ Route::post('/auth/register', 'AuthController@register');
 Route::get('/auth/test',function(){
   return Response::json(array(Auth::check());
 });
+*/
