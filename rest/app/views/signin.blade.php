@@ -3,6 +3,7 @@
     <title>Sign in</title>
   </head>
   <body>
+    {{var_dump($test)}}
     Please sign in
     <form method="post" action="/auth/login">
       <input name="email" value="murribu" />

@@ -12,6 +12,14 @@ header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE');
 |
 */
 
+/*
+use League\OAuth2\Server\Util\Request;
+use League\OAuth2\Server\Util\SecureKey;
+use League\OAuth2\Server\Storage;
+use League\OAuth2\Server\Storage\ClientInterface;
+use League\OAuth2\Server\Storage\ScopeInterface;
+use League\OAuth2\Server\Grant\GrantTypeInterface;
+
 $server = new \League\OAuth2\Server\AuthorizationServer;
 
 $server->setSessionStorage(new Storage\SessionStorage);
@@ -22,6 +30,7 @@ $server->setAuthCodeStorage(new Storage\AuthCodeStorage);
 
 $authCodeGrant = new \League\OAuth2\Server\Grant\AuthCodeGrant();
 $server->addGrantType($authCodeGrant);
+*/
 
 Route::get('/', function()
 {
@@ -37,11 +46,14 @@ Route::get('/episodes/','EpisodeController@showEpisodes');
 Route::put('/episode','EpisodeController@addEpisode');
 Route::post('/episode','EpisodeController@updateEpisode');
 
+Route::post('oauth/access_token', 'OAuthController@accessToken');
+
 Route::get('/signin/',function(){
   if (Auth::check()){
     return View::make('loggedin');
   }else{
-    return View::make('signin');
+    $f = new SessionStorage;
+    return View::make('signin')->with('test',$f);
   }
 });
 Route::post('/auth/login', 'AuthController@login');

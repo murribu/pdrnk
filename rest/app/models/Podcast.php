@@ -1,5 +1,7 @@
 <?php
 
+namespace Pdrnk\OAuth2\Models;
+
 class Podcast extends Eloquent {
 
 	/**
@@ -17,3 +19,4 @@ class Podcast extends Eloquent {
 	 */
 
 }
+?>
