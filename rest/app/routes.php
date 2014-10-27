@@ -47,6 +47,7 @@ Route::put('/episode','EpisodeController@addEpisode');
 Route::post('/episode','EpisodeController@updateEpisode');
 
 Route::post('oauth/access_token', 'OAuthController@accessToken');
+Route::post('oauth/registerclient', 'OAuthController@registerClient');
 
 Route::get('/signin/',function(){
   if (Auth::check()){

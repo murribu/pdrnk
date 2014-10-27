@@ -1,2 +1,15 @@
 drop table episodes;
+drop table oauth_client_endpoints;
+drop table oauth_session_authcode_scopes;
+drop table oauth_session_authcodes;
+drop table oauth_session_redirects;
+drop table oauth_session_refresh_tokens;
+drop table oauth_session_token_scopes;
+drop table oauth_session_access_tokens;
+drop table oauth_scopes;
+drop table oauth_sessions;
+drop table oauth_clients;
 drop table podcasts;
+drop table users;
+drop table sessions;
+truncate table migrations;

@@ -19,7 +19,6 @@ class CreateEpisodesTable extends Migration {
       $table->text('ep_description', 400);
       $table->integer('ep_duration');
       $table->boolean('ep_explicit');
-      $table->string('ep_name', 200);
       $table->integer('ep_filesize');
       $table->string('ep_img', 200);
       $table->string('ep_link', 200);
