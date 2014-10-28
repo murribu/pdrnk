@@ -249,7 +249,7 @@ class SessionStorage implements SessionInterface
     }
 
     /**
-     * Get all associated access tokens for an access token
+     * Get all associated scopes for an access token
      *
      * @param  string $accessToken The access token
      * @return array

@@ -32,8 +32,7 @@ $authCodeGrant = new \League\OAuth2\Server\Grant\AuthCodeGrant();
 $server->addGrantType($authCodeGrant);
 */
 
-Route::get('/', function()
-{
+Route::get('/', function(){
 	return 'hello world';
 });
 Route::get('/podcasts/{id}','PodcastController@showPodcast');
@@ -47,13 +46,17 @@ Route::put('/episode','EpisodeController@addEpisode');
 Route::post('/episode','EpisodeController@updateEpisode');
 
 Route::post('oauth/access_token', 'OAuthController@accessToken');
-Route::post('oauth/registerclient', 'OAuthController@registerClient');
+Route::get('/newClient/', function(){
+  $f = array('bar','bar');
+  return View::make('newClient')->with('input', $f);
+});
+Route::post('/registerClient/', 'ClientController@addClient');
 
 Route::get('/signin/',function(){
   if (Auth::check()){
     return View::make('loggedin');
   }else{
-    $f = new SessionStorage;
+    $f = array('foo','bar');
     return View::make('signin')->with('test',$f);
   }
 });
