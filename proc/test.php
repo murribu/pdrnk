@@ -1,7 +1,7 @@
-<?
+<?php
 require_once("pdrnk.php");
 
-/*
+/**/
 //Insert a podcast example...
 $pdrnk = new Pdrnk();
 $data = array(
@@ -16,9 +16,10 @@ $args = array(
 );
 $ret = $pdrnk->insertObject($args);
 echo $ret;
-*/
+
 //Update a podcast example...
-/*$pdrnk = new Pdrnk();
+/*
+$pdrnk = new Pdrnk();
 
 $data = array(
   'po_key' => 1,
@@ -28,7 +29,7 @@ $args = array(
   'data' => $data,
   'object' => 'podcast'
 );
-$ret = $pdrnk->updatePodcast($args);
+$ret = $pdrnk->updateObject($args);
 echo $ret;
 */
 
@@ -37,6 +38,7 @@ echo $ret;
 $pdrnk = new Pdrnk();
 $episode = array(
     'ep_name' => 'Test episode',
+    'ep_guid' => 'totallyaguid',
     'ep_description' => 'This episode was about testing. It was quite boring.',
     'ep_duration' => '1:09:14',
     'ep_explicit' => 'yes',
@@ -55,7 +57,7 @@ echo $ret;
 */
 
 //Read a podcast's feed example
-/**/
+/*
 $pdrnk = new Pdrnk();
 echo $pdrnk->readPodcastFeed(1);
 exit;
@@ -74,7 +76,7 @@ foreach($arr as $t){
 }
 
 echo $val;
-
+*/
 exit;
 
 	$settings = array(

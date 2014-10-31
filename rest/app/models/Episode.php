@@ -1,7 +1,5 @@
 <?php
 
-namespace Pdrnk\OAuth2\Models;
-
 class Episode extends Eloquent {
 
 	/**

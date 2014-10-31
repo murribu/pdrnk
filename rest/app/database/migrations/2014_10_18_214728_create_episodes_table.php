@@ -15,6 +15,7 @@ class CreateEpisodesTable extends Migration {
 		Schema::create('episodes', function($table)
 		{
       $table->increments('ep_key');
+      $table->string('ep_guid', 200);
       $table->string('ep_name', 200);
       $table->text('ep_description', 400);
       $table->integer('ep_duration');

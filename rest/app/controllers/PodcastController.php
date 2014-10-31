@@ -1,4 +1,4 @@
-<?
+<?php
 class PodcastController extends BaseController {
 
   private $fields = array(
@@ -39,6 +39,7 @@ class PodcastController extends BaseController {
   }
 
   public function addPodcast(){
+    //How do I get scope info here? I want to post what user and/or client added the podcast, etc.
     return $this->executeInsertStatement(array('pk' => $this->pk, 'fields' => $this->fields, 'table' => $this->table));
   }
 

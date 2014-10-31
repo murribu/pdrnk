@@ -1,4 +1,5 @@
-<?
+<?php
+
 class EpisodeController extends BaseController {
 
   private $leftjoin = array(
@@ -112,5 +113,3 @@ class EpisodeController extends BaseController {
     return $this->executeUpdateStatement(array('pk' => $this->pk, 'fields' => $this->fields, 'table' => $this->table));
   }
 }
-
-?>

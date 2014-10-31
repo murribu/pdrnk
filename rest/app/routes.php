@@ -1,6 +1,7 @@
 <?php
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE');
+header('Access-Control-Allow-Headers: Authorization');
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -12,32 +13,12 @@ header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE');
 |
 */
 
-/*
-use League\OAuth2\Server\Util\Request;
-use League\OAuth2\Server\Util\SecureKey;
-use League\OAuth2\Server\Storage;
-use League\OAuth2\Server\Storage\ClientInterface;
-use League\OAuth2\Server\Storage\ScopeInterface;
-use League\OAuth2\Server\Grant\GrantTypeInterface;
-
-$server = new \League\OAuth2\Server\AuthorizationServer;
-
-$server->setSessionStorage(new Storage\SessionStorage);
-$server->setAccessTokenStorage(new Storage\AccessTokenStorage);
-$server->setClientStorage(new Storage\ClientStorage);
-$server->setScopeStorage(new Storage\ScopeStorage);
-$server->setAuthCodeStorage(new Storage\AuthCodeStorage);
-
-$authCodeGrant = new \League\OAuth2\Server\Grant\AuthCodeGrant();
-$server->addGrantType($authCodeGrant);
-*/
-
 Route::get('/', function(){
 	return 'hello world';
 });
 Route::get('/podcasts/{id}','PodcastController@showPodcast');
 Route::get('/podcasts','PodcastController@showPodcasts');
-Route::put('/podcast','PodcastController@addPodcast');
+Route::put('/podcast', array('before' => 'oauth','uses' => 'PodcastController@addPodcast'));
 Route::post('/podcast','PodcastController@updatePodcast');
 
 Route::get('/episode/{id}','EpisodeController@showEpisode');
@@ -52,6 +33,17 @@ Route::get('/newClient/', function(){
 });
 Route::post('/registerClient/', 'ClientController@addClient');
 
+Route::get('protected-resource', ['before' => 'oauth', function() {
+  $headers = getallheaders();
+  $access_token = $headers['Authorization'];
+  
+  return Response::json(array('protected','resource'));
+}]);
+Route::get('protected-resource-test', ['before' => 'oauth', function() {
+    
+    return Response::json(array('ownerid' => Authorizer::getResourceOwnerId(), 'clientid' => Authorizer:: getClientId()));
+}]);
+
 Route::get('/signin/',function(){
   if (Auth::check()){
     return View::make('loggedin');
@@ -61,13 +53,4 @@ Route::get('/signin/',function(){
   }
 });
 Route::post('/auth/login', 'AuthController@login');
-/*
-Route::get('/auth/logout', 'AuthController@logout');
-Route::get('/auth/status', 'AuthController@status');
-
-Route::post('/auth/register', 'AuthController@register');
-
-Route::get('/auth/test',function(){
-  return Response::json(array(Auth::check());
-});
-*/
+?>

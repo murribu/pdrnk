@@ -1,9 +1,10 @@
-<?
+<?php
 
 class Pdrnk{
 
   private $timeout = 60;
-  private $baseurl = "http://rest.pdrnk.murribu.com/";
+  //private $baseurl = "http://rest.pdrnk.murribu.com/";
+  private $baseurl = "http://ec2-54-86-6-92.compute-1.amazonaws.com/";
 
   function getObjects($args){
     $object = $args['object'];
@@ -47,9 +48,14 @@ class Pdrnk{
     */
     $data = $args['data'];
     $object = $args['object'];
+    $accesstoken = $args['accesstoken'] ? $args['accesstoken'] : 'totallyanaccesstoken1';
     $url = $this->baseurl.$object;
-
+    $header = array();
+    
+    $header[] = 'Authorization: '.$accesstoken;
+    
     $ch = curl_init();
+    curl_setopt($ch, CURLOPT_HTTPHEADER,$header);
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $this->timeout);
@@ -70,13 +76,13 @@ class Pdrnk{
         'po_key' => 1,
         'po_name' => 'Nerdist is awesome',
       ),
-      'table' => 'podcast'
+      'object' => 'podcast'
     );
     */
     $data = $args['data'];
-    $table = $args['table'];
-    $url = $this->baseurl.$table;
-
+    $object = $args['object'];
+    $url = $this->baseurl.$object;
+    
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_TIMEOUT, $this->timeout);
@@ -97,7 +103,9 @@ class Pdrnk{
       'pk' => $pk
     );
     
-    $podcast = json_decode($this->getObjects($args));
+    $retVal = $this->getObjects($args);
+    
+    $podcast = json_decode($retVal);
 
     if ($podcast->po_feeddev != ""){
       $str = file_get_contents($podcast->po_feeddev);

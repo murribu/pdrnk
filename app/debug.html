@@ -6,6 +6,7 @@
     <button onclick="testpost();">POST</button>
     <button onclick="testput();">PUT</button>
     <button onclick="testget();">GET</button>
+    <button onclick="testget1();">GET1</button>
     
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script language="javascript">
@@ -17,9 +18,27 @@
         var args = new Object();
         args['data'] = data;
         args['object'] = 'podcast';
-        $.get('http://rest.pdrnk.murribu.com/auth/status',function(d){
-          //alert('here');
-        })
+        $.ajax({
+          url: "http://ec2-54-86-6-92.compute-1.amazonaws.com/protected-resource",
+          success: function(data, status) {
+            return console.log("The returned data", data);
+          },
+          beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization',
+          'totallyanaccesstoken1'); } 
+        });
+      }
+      function testget1(){
+        var data = new Object();
+        var args = new Object();
+        args['data'] = data;
+        args['object'] = 'podcast';
+        $.ajax({
+          url: "http://ec2-54-86-6-92.compute-1.amazonaws.com/protected-resource-test",
+          success: function(data, status) {
+            return console.log("The returned data", data);
+          },
+          beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','totallyanaccesstoken1'); } 
+        });
       }
       function testpost(){
         var data = new Object();
@@ -34,17 +53,16 @@
       }
       function testput(){
         var data = new Object();
-        data['ep_name'] = 'testing';
-        data['ep_po_key'] = 1;
-        data['ep_guid'] = 'asdf';
-        data['ep_duration'] = "1:09:34";
+        data['po_name'] = 'Nerdist';
+        data['po_feed'] = 'http://nerdist.libsyn.com/rss';
+        data['po_feeddev'] = 'http://murribu.com/nerdistrss.xml';
+        data['po_url'] = "http://nerdist.com";
         var args = new Object();
-        args['data'] = data;
-        args['object'] = 'episode';
         $.ajax({
-          url: 'http://rest.pdrnk.murribu.com/episode',
+          url: 'http://ec2-54-86-6-92.compute-1.amazonaws.com/podcast',
           type: 'PUT',
-          data: data
+          data: data,
+          beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','totallyanaccesstoken1'); } 
         }).done(function(d){
             //alert('here');
         });
